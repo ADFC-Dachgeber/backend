@@ -1,0 +1,40 @@
+// Data source
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/dg"
+}
+
+// Generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Data model
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  account   Account @relation(fields:  [accountId], references: [id])
+  accountId Int
+}
+
+model Location {
+  id          Int       @id @default(autoincrement())
+  latitude    Float
+  longitude   Float
+  accountId   Int
+  account     Account @relation(fields:  [accountId], references: [id])
+}
+
+model Description {
+  id        Int     @id @default(autoincrement())
+  text      String
+  account   Account @relation(fields:  [accountId], references: [id])
+  accountId Int
+}
+
+model Account {
+  id    Int     @id @default(autoincrement())
+  users User[]
+  description   Description?
+  location      Location?
+}
