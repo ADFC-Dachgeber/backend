@@ -13,8 +13,10 @@ generator client {
 model User {
   id        Int     @id @default(autoincrement())
   email     String  @unique
+  name      String  @db.VarChar(512)
   account   Account @relation(fields:  [accountId], references: [id])
   accountId Int
+  password  String  @db.VarChar(60)
 }
 
 model Location {
