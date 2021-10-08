@@ -13,9 +13,8 @@ export class AuthService {
         this.logger = logger.child({ scope: AuthService.name });
     }
 
-    async validateUser(email: string, password: string): Promise<any> {
-        this.logger.debug("Hello!");
-        const user = await this.usersService.find(email);
+    async validateUser(username: string, password: string): Promise<any> {
+        const user = await this.usersService.find(username);
         if (user && user.password === password) {
             const { password, ...result } = user;
             return result;
