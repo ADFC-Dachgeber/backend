@@ -5,6 +5,8 @@ import { UsersModule } from '../users/users.module';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './local.strategy';
 import { LocalAuthGuard } from './local-auth.guard';
+import { JwtStrategy } from './jwt.strategy';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Module({
   imports: [
@@ -19,9 +21,12 @@ import { LocalAuthGuard } from './local-auth.guard';
     AuthService,
     LocalStrategy,
     LocalAuthGuard,
+    JwtStrategy,
+    JwtAuthGuard,
   ],
   exports: [
     LocalAuthGuard,
+    JwtAuthGuard,
   ]
 })
 export class AuthModule { }

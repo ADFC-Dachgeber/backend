@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv -e .test.env -- prisma migrate dev --name postgres-init; jest --config ./test/jest-e2e.json"
+    "test:e2e": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh81OzBpYGEoOzIvHqEG86gdJLzUElAceCQtwOH0xMKv8dDMA9qPGXfvzgNJTmWFTkxVsraAX57onDJgMmfegyaIHAL0cEqMttkH1kEUJWuctqzXnIigH -- prisma migrate dev --name postgres-init;DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg JWT_SECRET=RJiUw62XzVjWh81OzBpYGEoOzIvHqEG86gdJLzUElAceCQtwOH0xMKv8dDMA9qPGXfvzgNJTmWFTkxVsraAX57onDJgMmfegyaIHAL0cEqMttkH1kEUJWuctqzXnIigH jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
