@@ -6,9 +6,9 @@ import { PRISMA } from '../const';
   providers: [
     {
       provide: PRISMA,
-      useValue: new PrismaClient(),
+      useFactory: () => new PrismaClient(),
     },
   ],
   exports: [PRISMA],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

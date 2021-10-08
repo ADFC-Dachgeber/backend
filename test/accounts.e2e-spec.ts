@@ -15,7 +15,19 @@ describe('AccountsController (e2e)', () => {
     await app.init();
   });
 
-  it('/accounts (GET)', () => {
-    return request(app.getHttpServer()).get('/accounts').expect(401);
+  describe('User is unauthorised', () => {
+    it('/accounts (GET)', () => {
+      return request(app.getHttpServer()).get('/accounts')
+        .expect(401);
+    });
   });
+
+  describe('User requests with a valid token', () => {
+    it('/accounts (GET)', () => {
+      return request(app.getHttpServer()).get('/accounts')
+        .expect(200)
+        .expect('{}');
+    })
+  });
+
 });
