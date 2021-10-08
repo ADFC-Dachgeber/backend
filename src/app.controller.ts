@@ -8,7 +8,8 @@ import { Public } from './auth/metadata';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly authService: AuthService) {}
+    private readonly authService: AuthService,
+  ) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)

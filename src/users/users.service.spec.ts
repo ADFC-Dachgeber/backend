@@ -13,10 +13,7 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        AccountsModule,
-        DatabaseModule
-      ],
+      imports: [AccountsModule, DatabaseModule],
       providers: [UsersService],
     }).compile();
 
@@ -35,16 +32,46 @@ describe('UsersService', () => {
     it('creates a user', async () => {
       const account = await accountsService.create();
       const newUser: Omit<User, 'id'> = {
-        name: "Max Mustermann",
-        email: "max.mustermann@example.com",
+        name: 'Max Mustermann',
+        email: 'max.mustermann@example.com',
         accountId: account.id,
-        password: 'abcefg'
-      }
-      const user = await service.create(newUser);
-      const { id, password: pw, ...createdUser } =
-        await prisma.user.findFirst({ where: { email: newUser.email } });
+        password: 'abcefg',
+      };
+      await service.create(newUser);
+      const {
+        id,
+        password: pw,
+        ...createdUser
+      } = await prisma.user.findFirst({ where: { email: newUser.email } });
       const { password, ...expectedUser } = newUser;
       expect(createdUser).toStrictEqual(expectedUser);
+    });
+  });
+
+  describe('validate', () => {
+    describe('when the user does not exist or password is wrong', () => {
+      it('returns null', async () => {
+        const username = 'max.mustermann@example.com';
+        const password = 'abcd';
+        expect(await service.validate(username, password)).toBeNull();
+      });
+    });
+    describe('when the username and password are correct', () => {
+      it('returns the user', async () => {
+        const username = 'max.mustermann@example.com';
+        const password = 'abcd';
+        const account = await accountsService.create();
+        const newUser: Omit<User, 'id'> = {
+          email: username,
+          name: 'Max Mustermann',
+          accountId: account.id,
+          password,
+        };
+        await service.create(newUser);
+        const { password: pw, ...expectedUser } = newUser;
+        const { id, ...foundUser } = await service.validate(username, password);
+        expect(foundUser).toStrictEqual(expectedUser);
+      });
     });
   });
 });

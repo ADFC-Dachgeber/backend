@@ -11,4 +11,4 @@ import { PRISMA } from '../const';
   ],
   exports: [PRISMA],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}
