@@ -8,7 +8,7 @@ describe('AppController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [AuthModule,],
+      imports: [AuthModule],
       controllers: [AppController],
       providers: [AppService],
     }).compile();
