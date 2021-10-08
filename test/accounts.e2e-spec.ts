@@ -16,8 +16,6 @@ describe('AccountsController (e2e)', () => {
   });
 
   it('/accounts (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/accounts')
-      .expect(401)
+    return request(app.getHttpServer()).get('/accounts').expect(401);
   });
 });

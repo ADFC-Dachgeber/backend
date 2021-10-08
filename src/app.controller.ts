@@ -5,7 +5,6 @@ import { Public } from './auth/metadata';
 
 @Controller()
 export class AppController {
-
   constructor(private readonly authService: AuthService) {}
 
   @Public()
@@ -18,6 +17,6 @@ export class AppController {
   @Public()
   @Get('')
   getHello(): string {
-    return "Hello World!";
+    return 'Hello World!';
   }
 }
