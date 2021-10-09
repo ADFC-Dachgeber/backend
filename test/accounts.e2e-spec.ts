@@ -24,9 +24,7 @@ describe('AccountsController (e2e)', () => {
 
   describe('User is unauthorised', () => {
     it('/accounts (GET)', () => {
-      return request(app.getHttpServer())
-        .get('/accounts')
-        .expect(401);
+      return request(app.getHttpServer()).get('/accounts').expect(401);
     });
   });
 

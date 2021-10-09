@@ -5,7 +5,7 @@ import { PRISMA, SALT_ROUNDS } from '../const';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(PRISMA) private readonly prisma: PrismaClient) { }
+  constructor(@Inject(PRISMA) private readonly prisma: PrismaClient) {}
 
   async find(id: number): Promise<User | null> {
     return await this.prisma.user.findUnique({
@@ -50,7 +50,7 @@ export class UsersService {
       },
       data: {
         password: await bcrypt.hash(user.password, SALT_ROUNDS),
-      }
+      },
     });
   }
 }

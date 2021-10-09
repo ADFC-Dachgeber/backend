@@ -8,7 +8,7 @@ describe('ResetTokensService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, UsersModule,],
+      imports: [DatabaseModule, UsersModule],
       providers: [ResetTokensService],
     }).compile();
 

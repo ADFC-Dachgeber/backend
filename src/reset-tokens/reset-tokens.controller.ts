@@ -5,20 +5,21 @@ import { ResetTokensService } from './reset-tokens.service';
 
 @Controller('reset-tokens')
 export class ResetTokensController {
-    constructor(
-        private readonly usersService: UsersService,
-        private readonly resetTokensService: ResetTokensService) { }
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly resetTokensService: ResetTokensService,
+  ) {}
 
-    @Public()
-    @Post('')
-    async create(@Body('email') email: string): Promise<void> {
-        const user = await this.usersService.findByEmail(email);
+  @Public()
+  @Post('')
+  async create(@Body('email') email: string): Promise<void> {
+    const user = await this.usersService.findByEmail(email);
 
-        if (!user) {
-            throw new NotFoundException();
-        }
-
-        await this.resetTokensService.create(user);
-        return;
+    if (!user) {
+      throw new NotFoundException();
     }
+
+    await this.resetTokensService.create(user);
+    return;
+  }
 }

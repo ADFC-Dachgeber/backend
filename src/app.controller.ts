@@ -1,5 +1,14 @@
 import { User } from '.prisma/client';
-import { Body, Controller, Get, Patch, Post, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
@@ -14,7 +23,7 @@ export class AppController {
     private readonly authService: AuthService,
     private readonly resetTokensService: ResetTokensService,
     private readonly usersService: UsersService,
-  ) { }
+  ) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -33,7 +42,7 @@ export class AppController {
   @Patch('auth/reset-password')
   async resetPassword(
     @Body('resetToken') resetToken: string,
-    @Body('password') password: string
+    @Body('password') password: string,
   ): Promise<User> {
     const token = await this.resetTokensService.validate(resetToken);
     const user = await this.usersService.find(token.userId);
