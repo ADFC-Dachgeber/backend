@@ -1,5 +1,5 @@
 import { PrismaClient, ResetToken, User } from '.prisma/client';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { PRISMA, RESET_TOKEN_VALID_HOURS } from '../const';
 
@@ -17,10 +17,14 @@ export class ResetTokensService {
         });
     }
 
-    async validate(token: string): Promise<ResetToken | null> {
+    async validate(token: string): Promise<ResetToken> {
         const t = await this.prisma.resetToken.findUnique({
             where: { token },
         });
-        return t && t.expiresAt >= new Date() ? t : null;
+        if (t && t.expiresAt >= new Date()) {
+            return t;
+        } else {
+            throw new UnauthorizedException();
+        }
     }
 }

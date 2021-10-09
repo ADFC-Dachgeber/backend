@@ -85,4 +85,23 @@ describe('Password reset (e2e)', () => {
                 .expect(200);
         });
     });
+
+    describe('With an expired reset token, a password reset will be rejected', () => {
+        it('/auth/reset-password (PATCH)', async () => {
+            const user = await usersService.findByEmail('max.mustermann@example.com');
+            const resetToken = await resetTokenService.create(user);
+            await prisma.resetToken.update({
+                where: { id: resetToken.id },
+                data: { expiresAt: new Date(Date.now() - 10) },
+            });
+
+            return request(app.getHttpServer())
+                .patch('/auth/reset-password')
+                .send({
+                    resetToken: resetToken.token,
+                    password: "foo!"
+                })
+                .expect(401);
+        });
+    });
 });
