@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prisma:generate": "yarn run prisma generate",
     "migrate:dev": "dotenv -e .development.env -- yarn run prisma migrate dev --name postgres-init",
     "prebuild": "rimraf dist",
     "build": "nest build",

@@ -11,12 +11,13 @@ generator client {
 
 // Data model
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  name      String  @db.VarChar(512)
-  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  accountId Int
-  password  String  @db.VarChar(60)
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String       @db.VarChar(512)
+  account     Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId   Int
+  password    String       @db.VarChar(60)
+  resetTokens ResetToken[]
 }
 
 model Location {
@@ -39,4 +40,11 @@ model Account {
   users       User[]
   description Description?
   location    Location?
+}
+
+model ResetToken {
+  id     Int    @id @default(autoincrement())
+  token  String @db.VarChar(256)
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 }
