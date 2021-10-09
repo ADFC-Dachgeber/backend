@@ -6,11 +6,13 @@ import { UsersService } from './../src/users/users.service';
 import { AccountsService } from './../src/accounts/accounts.service';
 import { PrismaClient } from '.prisma/client';
 import { PRISMA } from '../src/const';
+import { ResetTokensService } from '../src/reset-tokens/reset-tokens.service';
 
 describe('Password reset (e2e)', () => {
     let app: INestApplication;
     let accountsService: AccountsService;
     let usersService: UsersService;
+    let resetTokenService: ResetTokensService;
     let prisma: PrismaClient;
 
     beforeEach(async () => {
@@ -20,6 +22,7 @@ describe('Password reset (e2e)', () => {
 
         prisma = moduleFixture.get<PrismaClient>(PRISMA);
         accountsService = moduleFixture.get<AccountsService>(AccountsService);
+        resetTokenService = moduleFixture.get<ResetTokensService>(ResetTokensService);
         usersService = moduleFixture.get<UsersService>(UsersService);
 
         app = moduleFixture.createNestApplication();
@@ -58,13 +61,28 @@ describe('Password reset (e2e)', () => {
     });
 
     describe('A non-existing user requests a reset token', () => {
-        it('/rest-token (POST)', async () => {
+        it('/reset-token (POST)', async () => {
             return request(app.getHttpServer())
                 .post('/reset-tokens')
                 .send({
                     email: "info@abc.com",
                 })
                 .expect(404);
+        });
+    });
+
+    describe('With an existing valid reset token, a user sets his password', () => {
+        it('/auth/reset-password (PATCH)', async () => {
+            const user = await usersService.findByEmail('max.mustermann@example.com');
+            const resetToken = await resetTokenService.create(user);
+
+            return request(app.getHttpServer())
+                .patch('/auth/reset-password')
+                .send({
+                    resetToken: resetToken.token,
+                    password: "foo!"
+                })
+                .expect(200);
         });
     });
 });

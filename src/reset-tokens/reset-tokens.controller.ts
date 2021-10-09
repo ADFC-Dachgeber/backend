@@ -12,7 +12,7 @@ export class ResetTokensController {
     @Public()
     @Post('')
     async create(@Body('email') email: string): Promise<void> {
-        const user = await this.usersService.find(email);
+        const user = await this.usersService.findByEmail(email);
 
         if (!user) {
             throw new NotFoundException();

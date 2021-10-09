@@ -7,6 +7,7 @@ import { ResetTokensService } from './reset-tokens.service';
 @Module({
   imports: [DatabaseModule, UsersModule,],
   controllers: [ResetTokensController,],
-  providers: [ResetTokensService,]
+  providers: [ResetTokensService,],
+  exports: [ResetTokensService,],
 })
 export class ResetTokensModule { }

@@ -42,7 +42,7 @@ describe('UsersService', () => {
         id,
         password: pw,
         ...createdUser
-      } = await prisma.user.findFirst({ where: { email: newUser.email } });
+      } = await prisma.user.findUnique({ where: { email: newUser.email } });
       const { password, ...expectedUser } = newUser;
       expect(createdUser).toStrictEqual(expectedUser);
     });

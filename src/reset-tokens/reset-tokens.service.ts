@@ -16,4 +16,11 @@ export class ResetTokensService {
             }
         });
     }
+
+    async validate(token: string): Promise<ResetToken | null> {
+        const t = await this.prisma.resetToken.findUnique({
+            where: { token },
+        });
+        return t && t.expiresAt >= new Date() ? t : null;
+    }
 }

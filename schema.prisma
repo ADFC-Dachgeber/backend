@@ -44,7 +44,7 @@ model Account {
 
 model ResetToken {
   id        Int      @id @default(autoincrement())
-  token     String   @db.VarChar(256)
+  token     String   @unique @db.VarChar(256)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   expiresAt DateTime @default(now())
