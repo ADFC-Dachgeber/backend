@@ -1,7 +1,7 @@
 // Data source
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@localhost:5432/dg"
+  url      = env("DATABASE_URL")
 }
 
 // Generator
@@ -11,32 +11,41 @@ generator client {
 
 // Data model
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  name      String  @db.VarChar(512)
-  account   Account @relation(fields:  [accountId], references: [id])
-  accountId Int
-  password  String  @db.VarChar(60)
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String       @db.VarChar(512)
+  account     Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId   Int
+  password    String       @db.VarChar(60)
+  resetTokens ResetToken[]
 }
 
 model Location {
-  id          Int       @id @default(autoincrement())
-  latitude    Float
-  longitude   Float
-  accountId   Int
-  account     Account @relation(fields:  [accountId], references: [id])
+  id        Int     @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  accountId Int     @unique
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
 model Description {
   id        Int     @id @default(autoincrement())
   text      String
-  account   Account @relation(fields:  [accountId], references: [id])
-  accountId Int
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId Int     @unique
 }
 
 model Account {
-  id    Int     @id @default(autoincrement())
-  users User[]
-  description   Description?
-  location      Location?
+  id          Int          @id @default(autoincrement())
+  users       User[]
+  description Description?
+  location    Location?
+}
+
+model ResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique @db.VarChar(256)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  expiresAt DateTime @default(now())
 }
