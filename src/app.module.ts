@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { DatabaseModule } from './database/database.module';
+import { ResetTokensModule } from './reset-tokens/reset-tokens.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DatabaseModule } from './database/database.module';
     AuthModule,
     UsersModule,
     DatabaseModule,
+    ResetTokensModule,
   ],
   controllers: [AppController],
   providers: [

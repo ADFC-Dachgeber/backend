@@ -6,8 +6,8 @@ import { PRISMA, SALT_ROUNDS } from '../const';
 @Injectable()
 export class UsersService {
   constructor(@Inject(PRISMA) private readonly prisma: PrismaClient) {}
-  async find(email: string): Promise<User | undefined> {
-    return this.prisma.user.findFirst({
+  async find(email: string): Promise<User | null> {
+    return await this.prisma.user.findFirst({
       where: { email },
     });
   }
