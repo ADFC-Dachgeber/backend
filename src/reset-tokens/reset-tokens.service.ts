@@ -17,14 +17,17 @@ export class ResetTokensService {
     });
   }
 
-  async validate(token: string): Promise<ResetToken> {
-    const t = await this.prisma.resetToken.findUnique({
-      where: { token },
-    });
-    if (t && t.expiresAt >= new Date()) {
-      return t;
+  async validate(request: any): Promise<boolean> {
+    const { resetToken, email } = request.body;
+
+    if (resetToken && email) {
+      const t = await this.prisma.resetToken.findUnique({
+        where: { token: resetToken },
+        include: { user: true },
+      });
+      return t && t.expiresAt >= new Date() && t.user.email === email;
     } else {
-      throw new UnauthorizedException();
+      return false;
     }
   }
 }

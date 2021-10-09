@@ -6,14 +6,13 @@ import {
   Patch,
   Post,
   Request,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { Public } from './auth/metadata';
-import { ResetTokensService } from './reset-tokens/reset-tokens.service';
+import { ResetTokenGuard } from './auth/reset-token.guard';
 import { UsersService } from './users/users.service';
 
 @Controller()
@@ -21,9 +20,8 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly resetTokensService: ResetTokensService,
     private readonly usersService: UsersService,
-  ) {}
+  ) { }
 
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -39,18 +37,12 @@ export class AppController {
   }
 
   @Public()
+  @UseGuards(ResetTokenGuard)
   @Patch('auth/reset-password')
   async resetPassword(
-    @Body('resetToken') resetToken: string,
     @Body('password') password: string,
-  ): Promise<User> {
-    const token = await this.resetTokensService.validate(resetToken);
-    const user = await this.usersService.find(token.userId);
-
-    if (token) {
-      return await this.usersService.setPassword(user, password);
-    } else {
-      throw new UnauthorizedException();
-    }
+    @Body('email') email: string,
+  ): Promise<void> {
+    await this.usersService.setPassword(email, password);
   }
 }

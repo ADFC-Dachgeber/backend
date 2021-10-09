@@ -81,6 +81,7 @@ describe('Password reset (e2e)', () => {
         .patch('/auth/reset-password')
         .send({
           resetToken: resetToken.token,
+          email: 'max.mustermann@example.com',
           password: 'foo!',
         })
         .expect(200);
@@ -100,9 +101,10 @@ describe('Password reset (e2e)', () => {
         .patch('/auth/reset-password')
         .send({
           resetToken: resetToken.token,
+          email: 'max.mustermann@example.com',
           password: 'foo!',
         })
-        .expect(401);
+        .expect(403);
     });
   });
 });
