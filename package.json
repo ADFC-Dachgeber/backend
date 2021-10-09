@@ -16,7 +16,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test yarn run prisma migrate dev --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 yarn run jest",
+    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --watch)",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "yarn --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
