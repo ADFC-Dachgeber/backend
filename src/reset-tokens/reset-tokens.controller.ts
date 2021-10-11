@@ -1,4 +1,5 @@
-import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
+import { Body, Controller, NotFoundException, Post, UseGuards } from '@nestjs/common';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { Public } from '../auth/metadata';
 import { UsersService } from '../users/users.service';
 import { ResetTokensService } from './reset-tokens.service';
@@ -8,8 +9,9 @@ export class ResetTokensController {
   constructor(
     private readonly usersService: UsersService,
     private readonly resetTokensService: ResetTokensService,
-  ) {}
+  ) { }
 
+  @UseGuards(ThrottlerGuard,)
   @Public()
   @Post('')
   async create(@Body('email') email: string): Promise<void> {

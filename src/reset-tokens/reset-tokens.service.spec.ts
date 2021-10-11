@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { DEFAULT_THROTTLE_TTL } from '../const';
 import { DatabaseModule } from '../database/database.module';
 import { UsersModule } from '../users/users.module';
 import { ResetTokensService } from './reset-tokens.service';
@@ -8,7 +10,14 @@ describe('ResetTokensService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, UsersModule],
+      imports: [
+        DatabaseModule,
+        UsersModule,
+        ThrottlerModule.forRoot({
+          ttl: DEFAULT_THROTTLE_TTL,
+          limit: Infinity,
+        }),
+      ],
       providers: [ResetTokensService],
     }).compile();
 

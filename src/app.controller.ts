@@ -1,4 +1,3 @@
-import { User } from '.prisma/client';
 import {
   Body,
   Controller,
@@ -8,6 +7,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
@@ -24,7 +24,7 @@ export class AppController {
   ) { }
 
   @Public()
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(ThrottlerGuard, LocalAuthGuard,)
   @Post('auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
@@ -37,7 +37,7 @@ export class AppController {
   }
 
   @Public()
-  @UseGuards(ResetTokenGuard)
+  @UseGuards(ThrottlerGuard, ResetTokenGuard,)
   @Patch('auth/reset-password')
   async resetPassword(
     @Body('password') password: string,
