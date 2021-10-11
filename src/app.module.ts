@@ -11,6 +11,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { DatabaseModule } from './database/database.module';
 import { ResetTokensModule } from './reset-tokens/reset-tokens.module';
 import { DEFAULT_THROTTLE_LIMIT, DEFAULT_THROTTLE_TTL } from './const';
+import { DachgebersModule } from './dachgebers/dachgebers.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DEFAULT_THROTTLE_LIMIT, DEFAULT_THROTTLE_TTL } from './const';
     UsersModule,
     DatabaseModule,
     ResetTokensModule,
+    DachgebersModule,
   ],
   controllers: [AppController],
   providers: [
