@@ -30,7 +30,10 @@ describe('UsersService', () => {
 
   describe('create', () => {
     it('creates a user', async () => {
-      const account = await accountsService.create();
+      const account = await accountsService.create({
+        description: '',
+        location: [0, 0],
+      });
       const newUser: Omit<User, 'id'> = {
         name: 'Max Mustermann',
         email: 'max.mustermann@example.com',
@@ -60,7 +63,10 @@ describe('UsersService', () => {
       it('returns the user', async () => {
         const username = 'max.mustermann@example.com';
         const password = 'abcd';
-        const account = await accountsService.create();
+        const account = await accountsService.create({
+          description: 'blah',
+          location: [1, 1],
+        });
         const newUser: Omit<User, 'id'> = {
           email: username,
           name: 'Max Mustermann',
