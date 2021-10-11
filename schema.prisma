@@ -21,25 +21,25 @@ model User {
 }
 
 model Location {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   latitude  Float
   longitude Float
-  accountId Int     @unique
-  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  account   Account?
 }
 
 model Description {
-  id        Int     @id @default(autoincrement())
-  text      String
-  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  accountId Int     @unique
+  id      Int      @id @default(autoincrement())
+  text    String
+  account Account?
 }
 
 model Account {
-  id          Int          @id @default(autoincrement())
-  users       User[]
-  description Description?
-  location    Location?
+  id           Int         @id @default(autoincrement())
+  users        User[]
+  description  Description @relation(fields: [descriptonId], references: [id], onDelete: Cascade)
+  descriptonId Int         @unique
+  location     Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId   Int         @unique
 }
 
 model ResetToken {
