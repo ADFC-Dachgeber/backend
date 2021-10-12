@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prisma:generate": "yarn run prisma generate",
-    "migrate:dev": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg yarn run prisma migrate dev --name postgres-init",
+    "prisma:generate": "prisma generate --schema=./node_modules/models/schema.prisma",
+    "migrate:dev": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg yarn run prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -16,11 +16,11 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --watch)",
+    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --watch)",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "yarn --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --config ./test/jest-e2e.json --watch)"
+    "test:e2e": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --config ./test/jest-e2e.json --watch)"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -39,7 +39,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "models": "ADFC-Dachgeber/models"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
