@@ -16,11 +16,12 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --watch)",
+    "migrate:test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init",
+    "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "yarn --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init && (DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --config ./test/jest-e2e.json --watch)"
+    "test:e2e": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
