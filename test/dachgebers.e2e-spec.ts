@@ -58,7 +58,9 @@ describe('DachgebersController (e2e)', () => {
         .auth(accessToken, { type: 'bearer' })
         .expect(200)
         .expect(
-          '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[0,1]},"properties":{"description":"blah"}}]}',
+          '{"type":"FeatureCollection",'
+          + '"features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[0,1]},'
+          + '"properties":{"name":"Max Mustermann","description":"blah"}}]}',
         );
     });
   });

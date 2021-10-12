@@ -52,6 +52,7 @@ describe('DachgebersController', () => {
               coordinates: [0, 0],
             },
             properties: {
+              name: '',
               description: 'There are cats and dogs!',
             },
           },
@@ -62,6 +63,7 @@ describe('DachgebersController', () => {
               coordinates: [1, 2],
             },
             properties: {
+              name: '',
               description: 'It can be cosier...',
             },
           },

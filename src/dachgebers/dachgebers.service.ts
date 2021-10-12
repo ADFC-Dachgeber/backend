@@ -1,4 +1,4 @@
-import { Account, Description, Location } from '.prisma/client';
+import { Account, Description, Location, User } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Feature, GeoJSON } from 'geojson';
 import { AccountsService } from '../accounts/accounts.service';
@@ -8,7 +8,7 @@ export class DachgebersService {
   constructor(private readonly accountsService: AccountsService) {}
 
   async all(): Promise<GeoJSON> {
-    const accounts = await this.accountsService.allWithDescriptionAndCoord();
+    const accounts = await this.accountsService.allForDachgeber();
     return {
       type: 'FeatureCollection',
       features: accounts.map(featureFromAccount),
@@ -17,9 +17,13 @@ export class DachgebersService {
 }
 
 function featureFromAccount(
-  account: Account & { description: Description; location: Location },
+  dachgeber: Account & {
+    description: Description;
+    location: Location;
+    users: Omit<User, 'password'>[];
+  },
 ): Feature {
-  const { latitude, longitude } = account.location;
+  const { latitude, longitude } = dachgeber.location;
   return {
     type: 'Feature',
     geometry: {
@@ -27,7 +31,8 @@ function featureFromAccount(
       coordinates: [latitude, longitude],
     },
     properties: {
-      description: account.description.text,
+      name: dachgeber.users.map(({ name }) => name).join(' & '),
+      description: dachgeber.description.text,
     },
   };
 }

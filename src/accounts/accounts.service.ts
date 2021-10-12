@@ -1,4 +1,10 @@
-import { Account, Description, Location, PrismaClient } from '.prisma/client';
+import {
+  Account,
+  Description,
+  Location,
+  PrismaClient,
+  User,
+} from '.prisma/client';
 import { Inject, Injectable } from '@nestjs/common';
 import { PRISMA } from '../const';
 
@@ -28,12 +34,20 @@ export class AccountsService {
     });
   }
 
-  async allWithDescriptionAndCoord(): Promise<
-    ReadonlyArray<Account & { description: Description; location: Location }>
+  async allForDachgeber(): Promise<
+    ReadonlyArray<
+      Account & {
+        description: Description;
+        location: Location;
+        users: Omit<User, 'password'>[];
+      }
+    >
   > {
-    return await this.prisma.account.findMany({
-      include: { description: true, location: true },
-      orderBy: { id: 'asc' },
-    });
+    return await this.prisma.account
+      .findMany({
+        include: { description: true, location: true, users: true },
+        orderBy: { id: 'asc' },
+      })
+      .then((xs) => xs);
   }
 }
