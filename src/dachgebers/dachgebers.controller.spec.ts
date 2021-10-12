@@ -15,9 +15,9 @@ describe('DachgebersController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AccountsModule, DatabaseModule,],
-      providers: [DachgebersService,],
-      controllers: [DachgebersController,],
+      imports: [AccountsModule, DatabaseModule],
+      providers: [DachgebersService],
+      controllers: [DachgebersController],
     }).compile();
 
     prisma = module.get<PrismaClient>(PRISMA);
@@ -43,12 +43,12 @@ describe('DachgebersController', () => {
       });
 
       const expected: GeoJSON = {
-        type: "FeatureCollection",
+        type: 'FeatureCollection',
         features: [
           {
-            type: "Feature",
+            type: 'Feature',
             geometry: {
-              type: "Point",
+              type: 'Point',
               coordinates: [0, 0],
             },
             properties: {
@@ -56,15 +56,15 @@ describe('DachgebersController', () => {
             },
           },
           {
-            type: "Feature",
+            type: 'Feature',
             geometry: {
-              type: "Point",
+              type: 'Point',
               coordinates: [1, 2],
             },
             properties: {
               description: 'It can be cosier...',
-            }
-          }
+            },
+          },
         ],
       };
       const result = await controller.get();

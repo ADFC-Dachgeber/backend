@@ -1,5 +1,5 @@
 import { PrismaClient, ResetToken, User } from '.prisma/client';
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { PRISMA, RESET_TOKEN_VALID_HOURS } from '../const';
 

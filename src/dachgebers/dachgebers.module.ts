@@ -4,8 +4,8 @@ import { DachgebersController } from './dachgebers.controller';
 import { DachgebersService } from './dachgebers.service';
 
 @Module({
-  imports: [AccountsModule,],
-  controllers: [DachgebersController,],
+  imports: [AccountsModule],
+  controllers: [DachgebersController],
   providers: [DachgebersService],
 })
-export class DachgebersModule { }
+export class DachgebersModule {}
