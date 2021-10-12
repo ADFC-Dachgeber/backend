@@ -31,7 +31,10 @@ describe('Password reset (e2e)', () => {
 
     await prisma.account.deleteMany({});
 
-    const account = await accountsService.create();
+    const account = await accountsService.create({
+      description: 'blah',
+      location: [123, 456],
+    });
     await usersService.create({
       name: 'Max Musternann',
       email: 'max.mustermann@example.com',

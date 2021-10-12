@@ -40,22 +40,26 @@ describe('DachgebersController (e2e)', () => {
 
   describe('User requests with a valid token', () => {
     it('/dachgebers (GET)', async () => {
-      const account = await accountsService.create();
+      const account = await accountsService.create({
+        description: 'blah',
+        location: [0, 1],
+      });
       const user = await usersService.create({
-        name: "Max Mustermann",
-        email: "max.mustermann@example.com",
+        name: 'Max Mustermann',
+        email: 'max.mustermann@example.com',
         accountId: account.id,
-        password: "abcdefg",
+        password: 'abcdefg',
       });
       const res = await appController.login({ user });
       const { accessToken } = res;
-
 
       return request(app.getHttpServer())
         .get('/dachgebers')
         .auth(accessToken, { type: 'bearer' })
         .expect(200)
-        .expect('{}');
+        .expect(
+          '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[0,1]},"properties":{"description":"blah"}}]}',
+        );
     });
   });
 });

@@ -4,10 +4,10 @@ import { GeoJSON } from 'geojson';
 
 @Controller('dachgebers')
 export class DachgebersController {
-    constructor(private readonly dachgebersService: DachgebersService) { }
+  constructor(private readonly dachgebersService: DachgebersService) {}
 
-    @Get()
-    async get(): Promise<GeoJSON> {
-        return await this.dachgebersService.all();
-    }
+  @Get()
+  async get(): Promise<GeoJSON> {
+    return await this.dachgebersService.all();
+  }
 }

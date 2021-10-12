@@ -7,7 +7,7 @@ describe('DachgebersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AccountsModule,],
+      imports: [AccountsModule],
       providers: [DachgebersService],
     }).compile();
 

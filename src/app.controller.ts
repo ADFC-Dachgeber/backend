@@ -21,10 +21,10 @@ export class AppController {
     private readonly appService: AppService,
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
-  ) { }
+  ) {}
 
   @Public()
-  @UseGuards(ThrottlerGuard, LocalAuthGuard,)
+  @UseGuards(ThrottlerGuard, LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
@@ -37,7 +37,7 @@ export class AppController {
   }
 
   @Public()
-  @UseGuards(ThrottlerGuard, ResetTokenGuard,)
+  @UseGuards(ThrottlerGuard, ResetTokenGuard)
   @Patch('auth/reset-password')
   async resetPassword(
     @Body('password') password: string,
