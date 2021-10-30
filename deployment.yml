@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      deployment: backend
+  template:
+    metadata:
+      labels:
+        deployment: backend
+    spec:
+      containers:
+        - name: backend
+          image: gcr.io/adfc-dachgeber/backend
+          command: ["start:prod"]
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres:5432/dg"
+            - name: JWT_SECRET
+              value: "RJiUw62XzVjWh8"
