@@ -11,5 +11,3 @@ RUN yarn prisma:generate
 RUN yarn build
 
 EXPOSE 3000
-
-ENTRYPOINT [ "yarn" ]

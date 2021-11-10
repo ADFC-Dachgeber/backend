@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      deployment: backend
+  template:
+    metadata:
+      labels:
+        deployment: backend
+    spec:
+      containers:
+        - name: backend
+          image: gcr.io/adfc-dachgeber/backend
+          imagePullPolicy: Never
+          command: ["yarn", "start:prod"]
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: the-map
+                  key: databaseUrl
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: the-map
+                  key: jwtSecret

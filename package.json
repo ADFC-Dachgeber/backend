@@ -14,7 +14,7 @@
     "start": "nest start",
     "start:dev": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg JWT_SECRET=RJiUw62XzVjWh8 yarn nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "migrate:test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test prisma migrate dev --schema=./node_modules/models/schema.prisma --name postgres-init",
     "test": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dg_test JWT_SECRET=RJiUw62XzVjWh8 jest",
