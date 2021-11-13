@@ -12,6 +12,7 @@ import { DatabaseModule } from './database/database.module';
 import { ResetTokensModule } from './reset-tokens/reset-tokens.module';
 import { DEFAULT_THROTTLE_LIMIT, DEFAULT_THROTTLE_TTL } from './const';
 import { DachgebersModule } from './dachgebers/dachgebers.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DachgebersModule } from './dachgebers/dachgebers.module';
     DatabaseModule,
     ResetTokensModule,
     DachgebersModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [
