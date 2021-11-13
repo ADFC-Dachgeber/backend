@@ -5,3 +5,4 @@ metadata:
 data:
   databaseUrl: "postgresql://postgres:postgres@postgres:5432/dg"
   jwtSecret: "RJiUw62XzVjWh8"
+  image: dg-backend

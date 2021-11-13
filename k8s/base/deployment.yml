@@ -6,15 +6,17 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      deployment: backend
+      app: backend
+      deployment: backend-deployment
   template:
     metadata:
       labels:
-        deployment: backend
+        app: backend
+        deployment: backend-deployment
     spec:
       containers:
         - name: backend
-          image: gcr.io/adfc-dachgeber/backend
+          image: dg-backend
           imagePullPolicy: Never
           command: ["yarn", "start:prod"]
           ports:

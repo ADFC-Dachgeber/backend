@@ -4,6 +4,7 @@ metadata:
   name: backend-service
 spec:
   selector:
+    app: backend
     deployment: backend-deployment
   type: LoadBalancer
   ports:
