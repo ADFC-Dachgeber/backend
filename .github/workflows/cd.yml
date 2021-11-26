@@ -61,10 +61,20 @@ jobs:
           curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
           chmod u+x ./kustomize
 
-      # Deploy the Docker image to the GKE cluster
-      # - name: Deploy
-      #   run: |-
-      #     ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
-      #     ./kustomize build . | kubectl apply -f -
-      #     kubectl rollout status deployment/$DEPLOYMENT_NAME
-      #     kubectl get services -o wide
+      - name: Inject production JWT secret to configMap
+        run: |-
+          echo >> k8s/overlays/production/configMap.yml
+          echo "  jwtSecret: ${{secrets.JWT_SECRET}}" >> k8s/overlays/production/configMap.yml
+
+      - name: Inject production database connection string to configMap
+        run: |-
+          echo >> k8s/overlays/production/configMap.yml
+          echo "  databaseUrl: postgresql://postgres:${{secrets.POSTGRES_PASSWORD}}@postgres-postgresql:5432/dg" >> k8s/overlays/production/configMap.yml
+
+      Deploy the Docker image to the GKE cluster
+      - name: Deploy
+        run: |-
+          ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
+          ./kustomize build k8s/overlays/production | kubectl apply -f -
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
+          kubectl get services -o wide
