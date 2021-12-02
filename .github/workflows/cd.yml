@@ -9,7 +9,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: autopilot-cluster-4
   GKE_ZONE: europe-west3
-  DEPLOYMENT_NAME: dachgeber-backend
+  DEPLOYMENT_NAME: backend-deployment
   REPOSITORY: backend
   IMAGE: backend
 
