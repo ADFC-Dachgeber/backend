@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: dg-backend
+          image: backend
           imagePullPolicy: Never
           command: ["yarn", "start:prod"]
           ports:
