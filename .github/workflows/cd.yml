@@ -65,7 +65,7 @@ jobs:
       - name: Inject image name to configMap
         run: |-
           echo >> k8s/overlays/production/configMap.yml
-          echo "  image: gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" >> k8s/overlays/production/configMap.yml
+          echo "  image: $GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" >> k8s/overlays/production/configMap.yml
           
       - name: Inject production JWT secret to configMap
         run: |-
