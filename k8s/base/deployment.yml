@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -22,13 +22,20 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: DATABASE_URL
+            - name: PG_HOST
               valueFrom:
                 configMapKeyRef:
                   name: the-map
-                  key: databaseUrl
+                  key: pgHost
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://postgres:$(PG_PASSWORD)@$(PG_HOST):5432/dg
             - name: JWT_SECRET
               valueFrom:
-                configMapKeyRef:
-                  name: the-map
-                  key: jwtSecret
+                secretKeyRef:
+                  name: jwt-secret
+                  key: value
