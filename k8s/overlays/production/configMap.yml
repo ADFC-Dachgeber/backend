@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: the-map
 data:
-  pgHost: adfc-dachgeber:europe-west3:adfc-dachgeber-production
+  pgHost: 34.141.70.199
