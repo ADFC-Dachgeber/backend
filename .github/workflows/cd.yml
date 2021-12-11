@@ -67,7 +67,9 @@ jobs:
       #Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |-
+          cd k8s/overlays/production
           ./kustomize edit set image dg-backend=$GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
+          cd ../../..
           ./kustomize build k8s/overlays/production | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
