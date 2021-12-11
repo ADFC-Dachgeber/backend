@@ -41,3 +41,6 @@ migrations/
 # specific to this project
 scripts/
 
+# Production secrets
+**/production/jwt-secret.yml
+**/production/pg-credentials-secret.yml

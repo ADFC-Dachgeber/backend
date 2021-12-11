@@ -1,3 +1,5 @@
+# Reference: https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-google-kubernetes-engine
+
 name: Build and Deploy to GKE
 
 on:
@@ -62,23 +64,10 @@ jobs:
           tar -xvzf kustomize.tar.gz
           chmod u+x ./kustomize
 
-      - name: Inject image name to configMap
-        run: |-
-          echo >> k8s/overlays/production/configMap.yml
-          echo "  image: $GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" >> k8s/overlays/production/configMap.yml
-          
-      - name: Inject production JWT secret to configMap
-        run: |-
-          echo "  jwtSecret: ${{secrets.JWT_SECRET}}" >> k8s/overlays/production/configMap.yml
-
-      - name: Inject production database connection string to configMap
-        run: |-
-          echo >> k8s/overlays/production/configMap.yml
-          echo "  databaseUrl: postgresql://postgres:${{secrets.POSTGRES_PASSWORD}}@postgres-postgresql:5432/dg" >> k8s/overlays/production/configMap.yml
-
       #Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |-
+          ./kustomize edit set image dg-backend=$GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
           ./kustomize build k8s/overlays/production | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
