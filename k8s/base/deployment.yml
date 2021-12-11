@@ -17,7 +17,7 @@ spec:
       containers:
         - name: backend
           image: dg-backend
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           command: ["yarn", "start:prod"]
           ports:
             - containerPort: 3000
