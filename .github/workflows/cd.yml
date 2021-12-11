@@ -68,6 +68,7 @@ jobs:
       - name: Deploy
         run: |-
           cd k8s/overlays/production
+          echo $GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
           ./kustomize edit set image dg-backend=$GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
           cd ../../..
           ./kustomize build k8s/overlays/production | kubectl apply -f -
